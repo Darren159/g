@@ -13,9 +13,8 @@ Clone the repository:
    npm run dev
 
 
-First, run the development server:
+Alternate running of the development server:
 
-```bash
 npm run dev
 # or
 yarn dev
