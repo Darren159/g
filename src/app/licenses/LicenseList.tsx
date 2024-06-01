@@ -1,6 +1,6 @@
 'use client'
 import Link from "next/link";
-import { useSearch } from "./SearchContext";
+// import { useSearch } from "./SearchContext";
 
 function ItemCard({ item }) {
   return (
@@ -13,7 +13,7 @@ function ItemCard({ item }) {
 }
 
 
-export default function CopyrightList({ content }) {
+export default function LicenseList({ content }) {
     const { searchTerm, selectedCategories } = useSearch();
 
     const filteredCopyRights = content.filter((copyRight) =>
