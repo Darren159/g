@@ -1,12 +1,41 @@
 "use client";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import Web3 from "web3";
+import axios from "axios";
 import { uploadAsset } from "../../actions";
 import WalletContext from "../WalletContext";
 
 export default function CopyrightForm() {
-    const { account } = useContext(WalletContext);
-    console.log(account);
+  const { account } = useContext(WalletContext);
+  const [similarityResult, setSimilarityResult] = useState(null);
+
+  console.log("Account:", account);
+
+  const handleCheckSimilarity = async (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    const form = document.querySelector('form');
+    if (!form) return;
+    const formData = new FormData(form as HTMLFormElement);
+
+    try {
+      console.log("Sending similarity check request...");
+      const similarityResponse = await axios.post('http://localhost:3001/api/check-similarity', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      console.log("Similarity Response:", similarityResponse.data);
+      setSimilarityResult(similarityResponse.data.similar);
+
+      if (similarityResponse.data.similar) {
+        alert("The image is similar to existing content. Please upload a different image.");
+      } else {
+        alert("The image is unique.");
+      }
+    } catch (error) {
+      console.error('Error checking image similarity:', error);
+    }
+  };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -56,10 +85,25 @@ export default function CopyrightForm() {
           <label className="text-sm font-medium">Asset File</label>
           <input type="file" name="image" accept="image/*" className="w-full border-gray-300 rounded-md" required />
         </div>
+        <button type="button" onClick={handleCheckSimilarity} className="px-4 py-2 bg-yellow-500 text-white rounded-md">
+          Check Similarity
+        </button>
         <button type="submit" className="px-4 py-2 bg-white text-black rounded-md">
           Submit
         </button>
       </form>
+      {similarityResult !== null && (
+        <div className="mt-4">
+          <h2 className="text-xl font-medium">Similarity Result</h2>
+          {similarityResult ? (
+            <div>
+              <p>The image is similar to existing content.</p>
+            </div>
+          ) : (
+            <p>The image is unique.</p>
+          )}
+        </div>
+      )}
     </div>
   );
 }
