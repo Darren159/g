@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 };
 
 import Link from "next/link";
-import WalletProvider from "./WalletLogin"; // Ensure the path is correct
+import { WalletProvider } from "./WalletContext";
 
 function Header() {
   return (
@@ -36,9 +36,11 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <Header />
-        <main className="container mx-auto mt-4">
-          <WalletProvider>{children}</WalletProvider>
-        </main>
+        <WalletProvider>
+          <main className="container mx-auto mt-4">
+            {children}
+          </main>
+        </WalletProvider>
       </body>
     </html>
   );

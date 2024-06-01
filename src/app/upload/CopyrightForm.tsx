@@ -1,11 +1,10 @@
 "use client";
-import { useContext } from "react";
 import Web3 from "web3";
 import { uploadAsset } from "../../actions";
-import WalletContext from "../WalletContext";
+import { useWallet } from "../WalletContext";
 
 export default function CopyrightForm() {
-    const { account } = useContext(WalletContext);
+    const { account } = useWallet();
     console.log(account);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
