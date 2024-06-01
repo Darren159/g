@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect, useContext } from "react";
+import { useContext } from "react";
 import Web3 from "web3";
 import { uploadAsset } from "../../actions";
 import WalletContext from "../WalletContext";
