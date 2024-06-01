@@ -1,6 +1,6 @@
-
 'use client'
 import { useSearch } from "./SearchContext";
+
 export default function SearchBar() {
     const { searchTerm, setSearchTerm } = useSearch();
     return (

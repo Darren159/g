@@ -1,26 +1,57 @@
-import Image from "next/image";
-import SideBar from "./SideBar";
-import SearchBar from "./SearchBar";
-import { SearchProvider } from "./SearchContext";
+"use client";
+
+import React, { useEffect, useState } from "react";
+// import SideBar from "./SideBar";
+// import SearchBar from "./SearchBar";
+// import { SearchProvider } from "./SearchContext";
 import { getAllUserLicenses } from "../../lib/utils";
-import { useContext } from "react";
-import WalletContext from "../WalletContext";
+import { useWallet } from "../WalletContext";
 
-export default async function License() {
-  const { account } = useContext(WalletContext);
-  console.log(account);
+export default function License() {
+  const { account } = useWallet();
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  const data = await getAlluserLicenses();
+  useEffect(() => {
+    if (account) {
+      (async () => {
+        try {
+          const licenses = await getAllUserLicenses(account);
+          setData(licenses);
+          console.log(licenses)
+        } catch (err) {
+          setError("Failed to fetch licenses");
+        } finally {
+          setLoading(false);
+        }
+      })();
+    } else {
+      setLoading(false);
+    }
+  }, [account]);
+
+  if (loading) {
+    return <div className="flex justify-center items-center min-h-screen">Loading...</div>;
+  }
+
+  if (!account) {
+    return <div className="flex justify-center items-center min-h-screen">Please connect your wallet to view licenses.</div>;
+  }
+
+  if (error) {
+    return <div className="flex justify-center items-center min-h-screen">{error}</div>;
+  }
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-between py-24">
       <article className="flex flex-col gap-4">
-        <SearchProvider>
+        {/* <SearchProvider> */}
           <SearchBar />
           <div className="flex gap-4">
-            <SideBar />
-            <CopyrightList content={data} />
+            {/* <SideBar /> */}
           </div>
-        </SearchProvider>
+        {/* </SearchProvider> */}
       </article>
     </main>
   );

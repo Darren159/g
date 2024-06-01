@@ -21,6 +21,7 @@ function Header() {
           <Link href="/">Home</Link>
           <Link href="/browse">Browse</Link>
           <Link href="/upload">Upload</Link>
+          <Link href="/licenses">Licenses</Link>
         </nav>
       </div>
     </header>
