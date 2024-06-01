@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { uploadAsset } from "../actions";
-import { WalletLogin } from "../WalletLogin"; // Import WalletLogin
+import WalletLogin from "../WalletLogin"; // Import WalletLogin
 
 export default function CopyrightForm() {
   const [account, setAccount] = useState<string | null>(null);

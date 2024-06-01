@@ -8,7 +8,7 @@ interface Web3State {
   account: string | null;
 }
 
-export const WalletLogin = ({ setAccount }) => {
+export default function WalletLogin({ setAccount }) {
   const [state, setState] = useState<Web3State>({ web3: null, account: null });
 
   useEffect(() => {
@@ -19,6 +19,27 @@ export const WalletLogin = ({ setAccount }) => {
       console.error('MetaMask not detected');
     }
   }, []);
+
+  const addGanacheNetwork = async () => {
+    try {
+      await window.ethereum.request({
+        method: 'wallet_addEthereumChain',
+        params: [{
+          chainId: '0x539', // Chain ID for Ganache (1337 in decimal, 0x539 in hex)
+          chainName: 'Ganache Test Network',
+          nativeCurrency: {
+            name: 'ETH',
+            symbol: 'ETH',
+            decimals: 18,
+          },
+          rpcUrls: ['http://127.0.0.1:7545'],
+          blockExplorerUrls: null, // Set to null instead of an empty array
+        }]
+      });
+    } catch (error) {
+      console.error('Failed to add the Ganache network', error);
+    }
+  };
 
   const connectWallet = async () => {
     const { web3 } = state;
@@ -42,6 +63,12 @@ export const WalletLogin = ({ setAccount }) => {
     <div className="mb-4">
       <h2 className="text-lg font-bold mb-2">Connect Wallet</h2>
       <div className="text-center mt-10">
+        <button
+          onClick={addGanacheNetwork}
+          className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition duration-300 ease-in-out mb-4"
+        >
+          Add Ganache Network
+        </button>
         <button
           onClick={connectWallet}
           className="bg-teal-500 text-white py-2 px-4 rounded-lg hover:bg-teal-600 transition duration-300 ease-in-out"
