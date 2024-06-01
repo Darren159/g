@@ -1,18 +1,40 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import Web3 from "web3";
 import { uploadAsset } from "../actions";
-import WalletLogin from "../WalletLogin"; // Import WalletLogin
 
 export default function CopyrightForm() {
   const [account, setAccount] = useState<string | null>(null);
   const [signature, setSignature] = useState<string | null>(null);
 
+  useEffect(() => {
+    const storedAccount = sessionStorage.getItem("account");
+    if (storedAccount) {
+      setAccount(storedAccount);
+    } else {
+      checkCurrentAccount();
+    }
+  }, []);
+
+  const checkCurrentAccount = async () => {
+    if (window.ethereum) {
+      const web3 = new Web3(window.ethereum);
+      const accounts = await web3.eth.getAccounts();
+      if (accounts.length > 0) {
+        setAccount(accounts[0]);
+        sessionStorage.setItem("account", accounts[0]);
+      }
+    }
+  };
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const formData = new FormData(event.currentTarget);
+    const formData = new FormData(event.currentTarget as HTMLFormElement);
 
-    // Add account and signature to form data
-    if (account && signature) {
+    if (account) {
+      const message = "Please sign this message to verify your address.";
+      const web3 = new Web3(window.ethereum);
+      const signature = await web3.eth.personal.sign(message, account, "");
       formData.append("account", account);
       formData.append("signature", signature);
     }
@@ -20,17 +42,8 @@ export default function CopyrightForm() {
     await uploadAsset(formData);
   };
 
-  const signMessage = async () => {
-    if (!account) return;
-    const message = "Please sign this message to verify your address.";
-    const web3 = new Web3(window.ethereum);
-    const signature = await web3.eth.personal.sign(message, account, "");
-    setSignature(signature);
-  };
-
   return (
     <div>
-      <WalletLogin setAccount={setAccount} />
       <form onSubmit={handleSubmit} className="flex flex-col gap-4 border border-white border-solid rounded-lg p-4 w-1/2">
         <h1 className="font-semibold text-2xl">Register a New Asset</h1>
         <div className="flex flex-col gap-1">
@@ -62,9 +75,6 @@ export default function CopyrightForm() {
           <label className="text-sm font-medium">Asset File</label>
           <input type="file" name="image" accept="image/*" className="w-full border-gray-300 rounded-md" required />
         </div>
-        <button type="button" onClick={signMessage} className="px-4 py-2 bg-yellow-500 text-white rounded-md">
-          Sign Message
-        </button>
         <button type="submit" className="px-4 py-2 bg-white text-black rounded-md">
           Submit
         </button>

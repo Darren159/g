@@ -15,10 +15,20 @@ export default function WalletLogin({ setAccount }) {
     if (window.ethereum) {
       const web3Instance = new Web3(window.ethereum);
       setState((prevState) => ({ ...prevState, web3: web3Instance }));
+      checkConnectedAccount(web3Instance);
     } else {
       console.error('MetaMask not detected');
     }
   }, []);
+
+  const checkConnectedAccount = async (web3Instance: Web3) => {
+    const accounts = await web3Instance.eth.getAccounts();
+    if (accounts.length > 0) {
+      setState((prevState) => ({ ...prevState, account: accounts[0] }));
+      setAccount(accounts[0]); // Pass account to parent component
+      sessionStorage.setItem("account", accounts[0]); // Store account in session storage
+    }
+  };
 
   const addGanacheNetwork = async () => {
     try {
@@ -47,10 +57,8 @@ export default function WalletLogin({ setAccount }) {
       try {
         // Request account access if needed
         await window.ethereum.request({ method: 'eth_requestAccounts' });
-        // Get accounts from MetaMask
-        const accounts = await web3.eth.getAccounts();
-        setState((prevState) => ({ ...prevState, account: accounts[0] }));
-        setAccount(accounts[0]); // Pass account to parent component
+        // Check connected account
+        checkConnectedAccount(web3);
       } catch (error) {
         console.error('Error connecting to MetaMask', error);
       }
