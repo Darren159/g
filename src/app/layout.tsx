@@ -10,6 +10,7 @@ export const metadata: Metadata = {
 };
 
 import Link from "next/link";
+import WalletLogin from "./WalletLogin"; // Ensure the path is correct
 
 function Header() {
   return (
@@ -18,13 +19,13 @@ function Header() {
         <h1 className="text-xl font-bold">Blockchain Copyright Registry</h1>
         <nav className="flex gap-2">
           <Link href="/">
-           Home
-                  </Link>
-                  <Link href="/browse">
-                      Browse
-                      </Link>
+            Home
+          </Link>
+          <Link href="/browse">
+            Browse
+          </Link>
           <Link href="/upload">
-          Upload
+            Upload
           </Link>
         </nav>
       </div>
@@ -32,16 +33,20 @@ function Header() {
   );
 }
 
-
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-      <html lang="en">
-          <body className={inter.className}>
-              <Header/>{children}</body>
+    <html lang="en">
+      <body className={inter.className}>
+        <Header />
+        <main className="container mx-auto mt-4">
+          <WalletLogin /> {/* Added WalletLogin component */}
+          {children}
+        </main>
+      </body>
     </html>
   );
 }
