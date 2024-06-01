@@ -46,7 +46,7 @@ export default function WalletButtons() {
   };
 
   return (
-    <div className="text-center mt-10">
+    <div className="flex flex-col text-center mt-10">
       <button
         onClick={addGanacheNetwork}
         className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition duration-300 ease-in-out mb-4"

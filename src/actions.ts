@@ -9,8 +9,8 @@ export async function uploadAsset(formData: FormData) {
   console.log(res.json());
 }
 
-export async function createLicenseTemplate(hash: string, formData: FormData) {
-  formData.append("contentHash", hash);
+export async function createLicenseTemplate(contentHash: string, formData: FormData) {
+  formData.append("contentHash", contentHash);
     const jsonData = Object.fromEntries(formData.entries());
     console.log(JSON.stringify(jsonData));
   const res = await fetch("http://localhost:3001/api/create-license-template", {

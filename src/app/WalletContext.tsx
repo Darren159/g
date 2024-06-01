@@ -5,14 +5,14 @@ import Web3 from "web3";
 
 interface Web3State {
   web3: Web3 | null;
-  account: string | null;
+  account: string | undefined;
 }
 
-const WalletContext = createContext<Web3State>({ web3: null, account: null });
+const WalletContext = createContext<Web3State>({ web3: null, account: undefined });
 
 
 export function WalletProvider({ children }) {
-  const [state, setState] = useState<Web3State>({ web3: null, account: null });
+  const [state, setState] = useState<Web3State>({ web3: null, account: undefined });
 
   useEffect(() => {
     if (window.ethereum) {

@@ -4,8 +4,8 @@ import { uploadAsset } from "../../actions";
 import { useWallet } from "../WalletContext";
 
 export default function CopyrightForm() {
-    const { account } = useWallet();
-    console.log(account);
+  const { account } = useWallet();
+  console.log(account);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -17,49 +17,49 @@ export default function CopyrightForm() {
       const signature = await web3.eth.personal.sign(message, account, "");
       formData.append("account", account);
       formData.append("signature", signature);
+      await uploadAsset(formData);
+    } else {
+      alert("Please connect your wallet to upload an asset.");
+      return;
     }
-
-    await uploadAsset(formData);
   };
 
   return (
-    <div>
-      <form onSubmit={handleSubmit} className="flex flex-col gap-4 border border-white border-solid rounded-lg p-4 w-1/2">
-        <h1 className="font-semibold text-2xl">Register a New Asset</h1>
-        <div className="flex flex-col gap-1">
-          <label className="text-sm font-medium">Asset Title</label>
-          <input
-            type="text"
-            name="title"
-            placeholder="Enter the title of the asset"
-            className="w-full border-gray-300 rounded-md p-2 text-black"
-            required
-          />
-        </div>
-        <div className="flex flex-col gap-1">
-          <label className="text-sm font-medium">Asset Description</label>
-          <textarea
-            name="description"
-            placeholder="Describe your asset"
-            className="w-full border-gray-300 rounded-md p-2 text-black"
-            required
-          />
-        </div>
-        <div id="licenseTemplatesContainer" className="flex flex-col gap-4">
-          <h2 className="text-lg font-medium">License Templates</h2>
-          <button type="button" onClick={addLicenseTemplate} className="px-4 py-2 bg-blue-500 text-white rounded-md">
-            Add Another License Template
-          </button>
-        </div>
-        <div className="flex flex-col gap-1">
-          <label className="text-sm font-medium">Asset File</label>
-          <input type="file" name="image" accept="image/*" className="w-full border-gray-300 rounded-md" required />
-        </div>
-        <button type="submit" className="px-4 py-2 bg-white text-black rounded-md">
-          Submit
+    <form onSubmit={handleSubmit} className="flex flex-col gap-4 border border-white border-solid rounded-lg p-4 w-1/2">
+      <h1 className="font-semibold text-2xl">Register a New Asset</h1>
+      <div className="flex flex-col gap-1">
+        <label className="text-sm font-medium">Asset Title</label>
+        <input
+          type="text"
+          name="title"
+          placeholder="Enter the title of the asset"
+          className="w-full border-gray-300 rounded-md p-2 text-black"
+          required
+        />
+      </div>
+      <div className="flex flex-col gap-1">
+        <label className="text-sm font-medium">Asset Description</label>
+        <textarea
+          name="description"
+          placeholder="Describe your asset"
+          className="w-full border-gray-300 rounded-md p-2 text-black"
+          required
+        />
+      </div>
+      <div id="licenseTemplatesContainer" className="flex flex-col gap-4">
+        <h2 className="text-lg font-medium">License Templates</h2>
+        <button type="button" onClick={addLicenseTemplate} className="px-4 py-2 bg-blue-500 text-white rounded-md">
+          Add Another License Template
         </button>
-      </form>
-    </div>
+      </div>
+      <div className="flex flex-col gap-1">
+        <label className="text-sm font-medium">Asset File</label>
+        <input type="file" name="image" accept="image/*" className="w-full border-gray-300 rounded-md" required />
+      </div>
+      <button type="submit" className="px-4 py-2 bg-white text-black rounded-md">
+        Submit
+      </button>
+    </form>
   );
 }
 
