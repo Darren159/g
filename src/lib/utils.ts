@@ -39,3 +39,18 @@ export async function getContentLicenses(contentHash: string) {
     const data = await res.json();
   return data;
 }
+
+export async function getAllUserLicenses(account: string) {
+  const response = await fetch("/api/user-licenses", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ userAddress: account }),
+  });
+  const data = await response.json();
+  if (response.ok) {
+    return data;
+  } else {
+    console.error("Error fetching licenses", data.error);
+    return [];
+  }
+}
