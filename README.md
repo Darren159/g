@@ -3,6 +3,11 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 ### Prerequisites
 Ensure you have Node.js installed on your machine.
 
+Metamask Chrome extension installed 
+
+
+
+
 ## Getting Started
 
 Clone the repository:
