@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 };
 
 import Link from "next/link";
-import WalletLogin from "./WalletLogin"; // Ensure the path is correct
+import WalletProvider from "./WalletLogin"; // Ensure the path is correct
 
 function Header() {
   return (
@@ -18,15 +18,9 @@ function Header() {
       <div className="container mx-auto flex justify-between items-center">
         <h1 className="text-xl font-bold">Blockchain Copyright Registry</h1>
         <nav className="flex gap-2">
-          <Link href="/">
-            Home
-          </Link>
-          <Link href="/browse">
-            Browse
-          </Link>
-          <Link href="/upload">
-            Upload
-          </Link>
+          <Link href="/">Home</Link>
+          <Link href="/browse">Browse</Link>
+          <Link href="/upload">Upload</Link>
         </nav>
       </div>
     </header>
@@ -43,8 +37,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <Header />
         <main className="container mx-auto mt-4">
-          <WalletLogin /> {/* Added WalletLogin component */}
-          {children}
+          <WalletProvider>{children}</WalletProvider>
         </main>
       </body>
     </html>

@@ -1,10 +1,10 @@
 import AssetDetail from "./AssetDetail";
 
-export default function Asset({ params }: { params: { id: number } }) {
+export default function Asset({ params }: { params: { id: string } }) {
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between py-8">
-      <AssetDetail assetId={params.id}/>
+    <main className="flex min-h-screen flex-col items-center py-8">
+      <AssetDetail hash={params.id}/>
     </main>
   );
 }

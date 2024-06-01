@@ -1,31 +1,12 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import Web3 from "web3";
-import { uploadAsset } from "../actions";
+import { uploadAsset } from "../../actions";
+import WalletContext from "../WalletContext";
 
 export default function CopyrightForm() {
-  const [account, setAccount] = useState<string | null>(null);
-  const [signature, setSignature] = useState<string | null>(null);
-
-  useEffect(() => {
-    const storedAccount = sessionStorage.getItem("account");
-    if (storedAccount) {
-      setAccount(storedAccount);
-    } else {
-      checkCurrentAccount();
-    }
-  }, []);
-
-  const checkCurrentAccount = async () => {
-    if (window.ethereum) {
-      const web3 = new Web3(window.ethereum);
-      const accounts = await web3.eth.getAccounts();
-      if (accounts.length > 0) {
-        setAccount(accounts[0]);
-        sessionStorage.setItem("account", accounts[0]);
-      }
-    }
-  };
+    const { account } = useContext(WalletContext);
+    console.log(account);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
