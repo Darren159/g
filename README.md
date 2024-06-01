@@ -3,6 +3,9 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 ### Prerequisites
 Ensure you have Node.js installed on your machine.
 
+Metamask Chrome extension installed 
+
+
 ## Getting Started
 
 Clone the repository:
@@ -10,8 +13,8 @@ Clone the repository:
    git clone https://github.com/darren159/g.git
    cd g
    npm install
+   nvm use 18.17.0
    npm run dev
-
 
 Alternate running of the development server:
 
@@ -23,6 +26,14 @@ pnpm dev
 # or
 bun dev
 ```
+
+On the frontend, click on Add Ganache Network and connect Wallet
+
+use a private key from the Ganache Wallet Account to log in
+
+In the upload tab, you can register new assets and upload files, login into Metamask to finalise your actions
+
+
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
